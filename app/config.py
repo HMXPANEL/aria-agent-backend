@@ -1,34 +1,11 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
+"""config.py - ARIA v10 FINAL CLEAN CONFIG"""
 
-class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
-
-    APP_NAME: str = "AI Agent Brain"
-    APP_VERSION: str = "1.0.0"
-    DEBUG: bool = True
-
-    # NVIDIA LLM Settings
-    NVIDIA_API_KEY: str
-    NVIDIA_BASE_URL: str = "https://integrate.api.nvidia.com/v1"
-    NVIDIA_MODEL_NAME: str = "meta/llama3-70b-instruct"
-
-    # Android WebSocket Secret
-    ANDROID_WEBSOCKET_SECRET: str = "your_android_secret_key"
-
-    # Database Settings
-    SQLITE_DB_PATH: str = "./data/memory.db"
-    CHROMA_DB_PATH: str = "./data/chroma_db"
-
-    # Agent Settings
-    MAX_AGENT_ITERATIONS: int = 15
-    AGENT_LOOP_INTERVAL_SEC: int = 1
-
-settings = Settings()
-=======
-"""config.py - All settings from environment variables only."""
 import os
 import logging
 
+# =========================
+# LOGGING
+# =========================
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
@@ -36,23 +13,50 @@ logging.basicConfig(
 )
 logger = logging.getLogger("config")
 
-NVIDIA_API_KEY = os.getenv("NVIDIA_API_KEY", "")
+
+# =========================
+# ENV VARIABLES
+# =========================
+
+NVIDIA_API_KEY = os.getenv("NVIDIA_API_KEY", "").strip()
+
 if not NVIDIA_API_KEY:
     raise ValueError("Missing env var: NVIDIA_API_KEY")
 
-NVIDIA_BASE_URL  = "https://integrate.api.nvidia.com/v1"
-LLM_PROVIDER     = os.getenv("LLM_PROVIDER",    "nvidia")
-MODEL_AGENT      = os.getenv("MODEL_AGENT",      "meta/llama-3.1-70b-instruct")
-MODEL_CHAT       = os.getenv("MODEL_CHAT",       "mistralai/mixtral-8x7b-instruct-v0.1")
-MAX_RETRIES      = int(os.getenv("MAX_RETRIES",     "2"))
-MAX_TOKENS       = int(os.getenv("MAX_TOKENS",      "1024"))
-TEMPERATURE      = float(os.getenv("TEMPERATURE",   "0.15"))
-MAX_LOOP_STEPS   = int(os.getenv("MAX_LOOP_STEPS",  "10"))
-WS_TIMEOUT       = float(os.getenv("WS_TIMEOUT",    "120.0"))
-PORT             = int(os.getenv("PORT",            "10000"))
-HOST             = os.getenv("HOST",                "0.0.0.0")
 
-# Built-in app map - longest keywords first for correct matching
+# =========================
+# LLM CONFIG
+# =========================
+
+NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
+
+LLM_PROVIDER = os.getenv("LLM_PROVIDER", "nvidia")
+
+MODEL_AGENT = os.getenv(
+    "MODEL_AGENT",
+    "meta/llama-3.1-70b-instruct"
+)
+
+MODEL_CHAT = os.getenv(
+    "MODEL_CHAT",
+    "mistralai/mixtral-8x7b-instruct-v0.1"
+)
+
+MAX_RETRIES    = int(os.getenv("MAX_RETRIES", "2"))
+MAX_TOKENS     = int(os.getenv("MAX_TOKENS", "1024"))
+TEMPERATURE    = float(os.getenv("TEMPERATURE", "0.15"))
+MAX_LOOP_STEPS = int(os.getenv("MAX_LOOP_STEPS", "10"))
+
+WS_TIMEOUT = float(os.getenv("WS_TIMEOUT", "120.0"))
+
+PORT = int(os.getenv("PORT", "10000"))
+HOST = os.getenv("HOST", "0.0.0.0")
+
+
+# =========================
+# APP MAP (CRITICAL)
+# =========================
+
 APP_MAP = {
     "google maps":  "com.google.android.apps.maps",
     "play store":   "com.android.vending",
@@ -95,6 +99,11 @@ APP_MAP = {
     "x":            "com.twitter.android",
 }
 
+
+# =========================
+# CONSTANTS
+# =========================
+
 MESSAGING_APPS = {
     "com.whatsapp",
     "org.telegram.messenger",
@@ -111,5 +120,6 @@ COMPLETION_SIGNALS = {
     "search_web":   ["results", "http", "www"],
     "make_call":    ["calling", "ringing", "connected"],
 }
+
 
 logger.info(f"Config loaded | agent={MODEL_AGENT} | chat={MODEL_CHAT}")

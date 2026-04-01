@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
@@ -114,4 +113,3 @@ COMPLETION_SIGNALS = {
 }
 
 logger.info(f"Config loaded | agent={MODEL_AGENT} | chat={MODEL_CHAT}")
->>>>>>> e389411 (Initial commit)

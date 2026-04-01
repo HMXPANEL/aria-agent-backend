@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # AI Agent Brain - Full Stack Multi-Agent Backend
 
 A production-ready, fully asynchronous multi-agent autonomous AI backend optimized for Render deployment. This system features a continuous cognition loop, advanced multi-layer memory, and a secure tool execution environment.
@@ -310,4 +310,3 @@ git branch -M main
 git remote add origin https://TOKEN@github.com/USERNAME/aria-agent-v8.git
 git push -u origin main
 ```
->>>>>>> e389411 (Initial commit)

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import asyncio
 import os
 from fastapi import FastAPI, Request
@@ -320,4 +319,3 @@ async def sessions() -> Dict[str, Any]:
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("app.main:app", host=HOST, port=PORT, reload=True)
->>>>>>> e389411 (Initial commit)
